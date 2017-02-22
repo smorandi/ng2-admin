@@ -1,12 +1,12 @@
-import {Component, ViewEncapsulation} from '@angular/core';
+import {Component} from '@angular/core';
 
 import {GlobalState} from '../../../global.state';
 
+import 'style-loader!./baPageTop.scss';
+
 @Component({
   selector: 'ba-page-top',
-  styles: [require('./baPageTop.scss')],
-  template: require('./baPageTop.html'),
-  encapsulation: ViewEncapsulation.None
+  templateUrl: './baPageTop.html',
 })
 export class BaPageTop {
 
@@ -22,6 +22,7 @@ export class BaPageTop {
   public toggleMenu() {
     this.isMenuCollapsed = !this.isMenuCollapsed;
     this._state.notifyDataChanged('menu.isCollapsed', this.isMenuCollapsed);
+    return false;
   }
 
   public scrolledChanged(isScrolled) {

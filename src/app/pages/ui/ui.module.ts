@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { NgaModule } from '../../theme/nga.module';
 
 import { routing }       from './ui.routing';
-import { DropdownModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { DropdownModule, ModalModule } from 'ng2-bootstrap';
 import { Ui } from './ui.component';
 import { Buttons } from './components/buttons/buttons.component';
 import { Grid } from './components/grid/grid.component';
 import { Icons } from './components/icons/icons.component';
+import { Modals } from './components/modals/modals.component';
 import { Typography } from './components/typography/typography.component';
 
 import { FlatButtons } from './components/buttons/components/flatButtons';
@@ -27,13 +28,15 @@ import { IconsService } from './components/icons/icons.service';
     CommonModule,
     FormsModule,
     NgaModule,
-    DropdownModule,
+    DropdownModule.forRoot(),
+    ModalModule.forRoot(),
     routing
   ],
   declarations: [
     Buttons,
     Grid,
     Icons,
+    Modals,
     Typography,
     Ui,
     FlatButtons,
@@ -49,5 +52,5 @@ import { IconsService } from './components/icons/icons.service';
     IconsService
   ]
 })
-export default class UiModule {
+export class UiModule {
 }
