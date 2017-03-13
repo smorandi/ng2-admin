@@ -19,6 +19,8 @@ export const routes: Routes = [
     component: Pages,
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'tpa-trade-overview', loadChildren: 'app/pages/tpa-trade-overview/tpa-trade-overview.module#TpaTradeOverviewModule' },
+      { path: 'tpa-login', loadChildren: 'app/pages/tpa-login/tpa-login.module#TpaLoginModule' },
       { path: 'dashboard', loadChildren: 'app/pages/dashboard/dashboard.module#DashboardModule' },
       { path: 'editors', loadChildren: 'app/pages/editors/editors.module#EditorsModule' },
       { path: 'components', loadChildren: 'app/pages/components/components.module#ComponentsModule' },

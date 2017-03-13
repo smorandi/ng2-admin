@@ -17,6 +17,10 @@ import { AppState, InternalStateType } from './app.service';
 import { GlobalState } from './global.state';
 import { NgaModule } from './theme/nga.module';
 import { PagesModule } from './pages/pages.module';
+import {AuthGuard} from "./_guards/auth.guard";
+import {AlertService} from "./_services/alert.service";
+import {AuthenticationService} from "./_services/authentication.service";
+import {UserService} from "./_services/user.service";
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -50,7 +54,12 @@ export type StoreType = {
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,
-    APP_PROVIDERS
+    APP_PROVIDERS,
+
+    AuthGuard,
+    AlertService,
+    AuthenticationService,
+    UserService,
   ]
 })
 
