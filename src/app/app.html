@@ -1,0 +1,24 @@
+<main [ngClass]="{'menu-collapsed': isMenuCollapsed}" baThemeRun>
+  <div class="additional-bg"></div>
+  <router-outlet></router-outlet>
+</main>
+
+<div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close" aria-label="Close" (click)="hideChildModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">{{alertTitle}}</h4>
+      </div>
+      <div class="modal-body">
+        <pre>{{alertMessage}}</pre>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary confirm-btn" (click)="hideChildModal()">OK</button>
+      </div>
+    </div>
+  </div>
+</div>

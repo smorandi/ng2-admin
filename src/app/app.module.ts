@@ -1,27 +1,24 @@
-import { NgModule, ApplicationRef } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-import { RouterModule } from '@angular/router';
-import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
-
+import {NgModule, ApplicationRef, ErrorHandler} from "@angular/core";
+import {BrowserModule} from "@angular/platform-browser";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {HttpModule} from "@angular/http";
+import {RouterModule} from "@angular/router";
+import {removeNgStyles, createNewHosts, createInputTransfer} from "@angularclass/hmr";
 /*
  * Platform and Environment providers/directives/pipes
  */
-import { ENV_PROVIDERS } from './environment';
-import { routing } from './app.routing';
-
+import {ENV_PROVIDERS} from "./environment";
+import {routing} from "./app.routing";
 // App is our top level component
-import { App } from './app.component';
-import { AppState, InternalStateType } from './app.service';
-import { GlobalState } from './global.state';
-import { NgaModule } from './theme/nga.module';
-import { PagesModule } from './pages/pages.module';
+import {App} from "./app.component";
+import {AppState, InternalStateType} from "./app.service";
+import {GlobalState} from "./global.state";
+import {NgaModule} from "./theme/nga.module";
+import {PagesModule} from "./pages/pages.module";
 import {AuthGuard} from "./_guards/auth.guard";
-import {AlertService} from "./_services/alert.service";
-import {AuthenticationService} from "./_services/authentication.service";
-import {UserService} from "./_services/user.service";
-
+import {APIS, BASE_PATH} from "./angular2";
+import {AlertService, AuthenticationService, UserService} from "./_services";
+import {ModalModule} from "ng2-bootstrap";
 // Application wide providers
 const APP_PROVIDERS = [
   AppState,
@@ -50,19 +47,31 @@ export type StoreType = {
     ReactiveFormsModule,
     NgaModule.forRoot(),
     PagesModule,
-    routing
+    routing,
+    ModalModule.forRoot()
+  ],
+  exports: [
+    ModalModule
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,
     APP_PROVIDERS,
 
+    APIS,
+
+    {
+      provide: BASE_PATH, // Used in apis as base path.
+      useValue: "http://localhost:9000"//API_BASE_PATH // Declared in custom-typings.d.ts, set by webpack's DefinePlugin
+    },
+
     AuthGuard,
     AlertService,
     AuthenticationService,
     UserService,
+
+    // {provide: ErrorHandler, useValue: AlertService}
   ]
 })
-
 export class AppModule {
 
   constructor(public appRef: ApplicationRef, public appState: AppState) {
