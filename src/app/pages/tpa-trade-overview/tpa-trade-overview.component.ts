@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit} from "@angular/core";
 import {CalypsoControllerApi} from "../../angular2/api/CalypsoControllerApi";
 import {RequestOptions, Headers} from "@angular/http";
 import {AlertService} from "../../_services/alert.service";
-import {Subscription} from "rxjs";
+
+import 'style-loader!./buttons.scss';
 
 @Component({
   selector: "tpa-trade-overview",

@@ -19,6 +19,8 @@ import {AuthGuard} from "./_guards/auth.guard";
 import {APIS, BASE_PATH} from "./angular2";
 import {AlertService, AuthenticationService, UserService} from "./_services";
 import {ModalModule} from "ng2-bootstrap";
+import {STOMPService} from "./_services/stomp/stomp.service";
+
 // Application wide providers
 const APP_PROVIDERS = [
   AppState,
@@ -68,6 +70,7 @@ export type StoreType = {
     AlertService,
     AuthenticationService,
     UserService,
+    STOMPService
 
     // {provide: ErrorHandler, useValue: AlertService}
   ]

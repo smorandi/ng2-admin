@@ -25,6 +25,9 @@ import 'bootstrap-loader';
 import 'font-awesome-sass-loader';
 import 'lodash';
 
+import "sockjs-client";
+import "stompjs";
+
 if ('production' === ENV) {
   // Production
 } else {

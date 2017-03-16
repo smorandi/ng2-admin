@@ -1,8 +1,8 @@
 import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
-import {TpaTradeOverviewComponent} from "./tpa-trade-overview.component";
-import {routing} from "./tpa-trade-overview.routing";
 import {NgaModule} from "../../theme/nga.module";
+import {TpaNotificationsComponent} from "./tpa-notifications.component";
+import {routing} from "./tpa-notifications.routing";
 
 @NgModule({
   imports: [
@@ -11,8 +11,8 @@ import {NgaModule} from "../../theme/nga.module";
     routing
   ],
   declarations: [
-    TpaTradeOverviewComponent
+    TpaNotificationsComponent
   ]
 })
-export class TpaTradeOverviewModule {
+export class TpaNotificationsModule {
 }

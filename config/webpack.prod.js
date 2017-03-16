@@ -267,6 +267,7 @@ module.exports = function (env) {
      * See: https://webpack.github.io/docs/configuration.html#node
      */
     node: {
+      net: "empty",
       global: true,
       crypto: 'empty',
       process: false,

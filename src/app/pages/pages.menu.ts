@@ -3,30 +3,6 @@ export const PAGES_MENU = [
     path: 'pages',
     children: [
       {
-        path: 'tpa-login',  // path for our page
-        data: { // custom menu declaration
-          menu: {
-            title: 'Tpa Login', // menu title
-            pathMatch: 'prefix', // use it if item children not displayed in menu
-            selected: false,
-            expanded: false,
-            order: 0
-          }
-        }
-      },
-      {
-        path: 'tpa-trade-overview',  // path for our page
-        data: { // custom menu declaration
-          menu: {
-            title: 'Tpa Trade Overview', // menu title
-            pathMatch: 'prefix', // use it if item children not displayed in menu
-            selected: false,
-            expanded: false,
-            order: 0
-          }
-        }
-      },
-      {
         path: 'dashboard',
         data: {
           menu: {
@@ -39,118 +15,43 @@ export const PAGES_MENU = [
         }
       },
       {
-        path: 'ui',
+        path: 'tpa-login',
         data: {
           menu: {
-            title: 'UI Features',
-            icon: 'ion-android-laptop',
+            title: 'Login',
+            icon: 'fa fa-sign-in',
+            pathMatch: 'prefix',
             selected: false,
             expanded: false,
-            order: 300,
+            order: 0
           }
-        },
-        children: [
-          {
-            path: 'typography',
-            data: {
-              menu: {
-                title: 'Typography',
-              }
-            }
-          },
-          {
-            path: 'buttons',
-            data: {
-              menu: {
-                title: 'Buttons',
-              }
-            }
-          },
-          {
-            path: 'icons',
-            data: {
-              menu: {
-                title: 'Icons',
-              }
-            }
-          },
-          {
-            path: 'modals',
-            data: {
-              menu: {
-                title: 'Modals',
-              }
-            }
-          },
-          {
-            path: 'grid',
-            data: {
-              menu: {
-                title: 'Grid',
-              }
-            }
-          },
-        ]
+        }
       },
       {
-        path: 'forms',
+        path: 'tpa-trade-overview',
         data: {
           menu: {
-            title: 'Form Elements',
-            icon: 'ion-compose',
+            title: 'Trade Overview',
+            icon: 'fa fa-money',
+            pathMatch: 'prefix',
             selected: false,
             expanded: false,
-            order: 400,
+            order: 0
           }
-        },
-        children: [
-          {
-            path: 'inputs',
-            data: {
-              menu: {
-                title: 'Form Inputs',
-              }
-            }
-          },
-          {
-            path: 'layouts',
-            data: {
-              menu: {
-                title: 'Form Layouts',
-              }
-            }
-          }
-        ]
+        }
       },
       {
-        path: 'tables',
+        path: 'tpa-notifications',
         data: {
           menu: {
-            title: 'Tables',
-            icon: 'ion-grid',
+            title: 'Notifications',
+            icon: 'fa fa-flag',
+            pathMatch: 'prefix',
             selected: false,
             expanded: false,
-            order: 500,
+            order: 0
           }
-        },
-        children: [
-          {
-            path: 'basictables',
-            data: {
-              menu: {
-                title: 'Basic Tables',
-              }
-            }
-          },
-          {
-            path: 'smarttables',
-            data: {
-              menu: {
-                title: 'Smart Tables',
-              }
-            }
-          }
-        ]
+        }
       },
     ]
   }

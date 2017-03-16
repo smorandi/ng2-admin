@@ -49,6 +49,10 @@ export class App implements OnInit, AfterViewInit {
         this.alertTitle = message.type;
         this.alertMessage = message.text;
 
+        if (message.text._body) {
+          this.alertMessage = message.text._body;
+        }
+
         this.showChildModal();
       }
       else {
