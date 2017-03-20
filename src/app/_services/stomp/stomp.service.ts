@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Subject } from 'rxjs/Rx';
+import {Subject, Observable} from 'rxjs/Rx';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { StompConfig } from './';
@@ -8,6 +8,7 @@ import { StompConfig } from './';
 import * as Stomp from "stompjs";
 
 import * as SockJS from 'sockjs-client';
+import {Todo} from "../../pages/dashboard/todo/todo.component";
 
 /** possible states for the STOMP service */
 export enum STOMPState {
@@ -36,7 +37,7 @@ export class STOMPService {
   public state: BehaviorSubject<STOMPState>;
 
   // Publishes new messages to Observers
-  public messages: Subject<Stomp.Message>;
+  private messages:  BehaviorSubject<Array<Stomp.Message>>;
 
   // Configuration structure with MQ creds
   private config: StompConfig;
@@ -52,10 +53,38 @@ export class STOMPService {
 
   private sockJS: any;
 
+  private stompConfig: StompConfig;
+
   /** Constructor */
   public constructor() {
-    this.messages = new Subject<Stomp.Message>();
+    this.messages = new BehaviorSubject([]);
     this.state = new BehaviorSubject<STOMPState>(STOMPState.CLOSED);
+  }
+
+  public getMessages():Observable<Array<Stomp.Message>> {
+    return this.messages.asObservable();
+  }
+
+  public init(): Promise<{}> {
+    this.stompConfig = {
+      "host": "localhost",
+      "port": 9000,
+      "ssl": false,
+
+      "user": null,
+      "pass": null,
+
+      "subscribe": ["/topic/notifications", "/user/queue/notifications"],
+      "publish": [],
+
+      "heartbeat_in": 0,
+      "heartbeat_out": 25000,
+
+      "debug": true
+    };
+
+    this.configure(this.stompConfig);
+    return this.try_connect();
   }
 
   /** Set up configuration */
@@ -89,9 +118,6 @@ export class STOMPService {
     // Configure client heartbeating
     // this.client.heartbeat.incoming = this.config.heartbeat_in;
     // this.client.heartbeat.outgoing = this.config.heartbeat_out;
-
-    // Set function to debug print messages
-    this.client.debug = this.config.debug || this.config.debug == null ? this.debug : null;
   }
 
 
@@ -144,18 +170,8 @@ export class STOMPService {
   }
 
 
-  /** Send a message to all topics */
-  public publish(message?: string): void {
-
-    for (const t of this.config.publish) {
-      this.client.send(t, {}, message);
-    }
-  }
-
-
   /** Subscribe to server message queues */
-  public subscribe(): void {
-
+  private subscribe(): void {
     // Subscribe to our configured queues
     for (const t of this.config.subscribe) {
       this.client.subscribe(t, this.on_message, { ack: 'auto' });
@@ -168,24 +184,8 @@ export class STOMPService {
   }
 
 
-  /**
-   * Callback Functions
-   *
-   * Note the method signature: () => preserves lexical scope
-   * if we need to use this.x inside the function
-   */
-  public debug(...args: any[]): void {
-
-    // Push arguments to this function into console.log
-    if (window.console && console.log && console.log.apply) {
-      console.log.apply(console, args);
-    }
-  }
-
-
   // Callback run on successfully connecting to server
-  public on_connect = () => {
-
+  private on_connect = () => {
     console.log('Connected');
 
     // Indicate our connected state to observers
@@ -206,8 +206,7 @@ export class STOMPService {
 
 
   // Handle errors from stomp.js
-  public on_error = (error: string | Stomp.Message) => {
-
+  private on_error = (error: string | Stomp.Message) => {
     if (typeof error === 'object') {
       error = (<Stomp.Message>error).body;
     }
@@ -231,10 +230,11 @@ export class STOMPService {
 
 
   // On message RX, notify the Observable with the message object
-  public on_message = (message: Stomp.Message) => {
-
+  private on_message = (message: Stomp.Message) => {
     if (message.body) {
-      this.messages.next(message);
+      console.log("Message received: " + message);
+      this.messages.getValue().unshift(message);
+      this.messages.next(this.messages.getValue());
     } else {
       console.error('Empty message received!');
     }

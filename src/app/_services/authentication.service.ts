@@ -5,10 +5,12 @@ import {AlertService} from "./alert.service";
 import "rxjs/add/operator/map";
 import {Observable} from "rxjs";
 import * as models from "../angular2/model/models";
+import {STOMPService} from "./stomp/stomp.service";
 
 @Injectable()
 export class AuthenticationService {
-  constructor(private api: AuthenticationControllerApi) {
+  constructor(private api: AuthenticationControllerApi,
+              private stompService: STOMPService) {
   }
 
   public login(username: string, password: string): Observable<models.LoginInfo> {
@@ -23,6 +25,10 @@ export class AuthenticationService {
           sessionStorage.setItem("refreshToken", response.refreshToken);
           sessionStorage.setItem("csrfToken", response.csrfToken);
 
+          this.stompService.init().then(r => {
+            console.log("connected: " + r);
+          });
+
           return response;
         }
       );
@@ -33,14 +39,5 @@ export class AuthenticationService {
     sessionStorage.removeItem("accessToken");
     sessionStorage.removeItem("refreshToken");
     sessionStorage.removeItem("csrfToken");
-  }
-
-  private jwt(): RequestOptions {
-    // create authorization header with jwt token
-    let accessToken = sessionStorage.getItem("accessToken");
-    if (accessToken) {
-      let headers = new Headers({'Authorization': 'Bearer ' + accessToken});
-      return new RequestOptions({headers: headers});
-    }
   }
 }
