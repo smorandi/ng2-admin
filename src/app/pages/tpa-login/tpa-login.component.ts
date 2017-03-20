@@ -31,17 +31,26 @@ export class TpaLoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    // get return url from route parameters or default to '/'
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    if (this.authenticationService.isLoggedIn()) {
+      this.router.navigate(["/pages/dashboard"]);
+    }
+    else {
+      // get return url from route parameters or default to '/'
+      this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || undefined;
+    }
   }
-
 
   onSubmit(values: Object): void {
     this.submitted = true;
     if (this.form.valid) {
       this.authenticationService.login(this.username.value, this.password.value).subscribe(
         data => {
-          this.router.navigate([this.returnUrl]);
+          if (this.returnUrl) {
+            this.router.navigate([this.returnUrl]);
+          }
+          else {
+            this.router.navigate(["/pages/dashboard"]);
+          }
         },
         error => {
           this.alertService.error(error);

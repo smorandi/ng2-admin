@@ -3,18 +3,6 @@ export const PAGES_MENU = [
     path: 'pages',
     children: [
       {
-        path: 'dashboard',
-        data: {
-          menu: {
-            title: 'Dashboard',
-            icon: 'ion-android-home',
-            selected: false,
-            expanded: false,
-            order: 0
-          }
-        }
-      },
-      {
         path: 'tpa-login',
         data: {
           menu: {
@@ -23,6 +11,20 @@ export const PAGES_MENU = [
             pathMatch: 'prefix',
             selected: false,
             expanded: false,
+            auth: false,
+            order: 0
+          }
+        }
+      },
+      {
+        path: 'dashboard',
+        data: {
+          menu: {
+            title: 'Dashboard',
+            icon: 'ion-android-home',
+            selected: false,
+            expanded: false,
+            auth: true,
             order: 0
           }
         }
@@ -36,6 +38,7 @@ export const PAGES_MENU = [
             pathMatch: 'prefix',
             selected: false,
             expanded: false,
+            auth: true,
             order: 0
           }
         }
@@ -49,6 +52,7 @@ export const PAGES_MENU = [
             pathMatch: 'prefix',
             selected: false,
             expanded: false,
+            auth: true,
             order: 0
           }
         }

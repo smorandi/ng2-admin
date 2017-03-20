@@ -18,7 +18,7 @@ export const routes: Routes = [
     path: 'pages',
     component: Pages,
     children: [
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: '', redirectTo: 'tpa-login', pathMatch: 'full' },
       { path: 'tpa-trade-overview', loadChildren: 'app/pages/tpa-trade-overview/tpa-trade-overview.module#TpaTradeOverviewModule' },
       { path: 'tpa-login', loadChildren: 'app/pages/tpa-login/tpa-login.module#TpaLoginModule' },
       { path: 'tpa-notifications', loadChildren: 'app/pages/tpa-notifications/tpa-notifications.module#TpaNotificationsModule' },

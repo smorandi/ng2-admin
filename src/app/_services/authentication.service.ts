@@ -13,6 +13,10 @@ export class AuthenticationService {
               private stompService: STOMPService) {
   }
 
+  public isLoggedIn(): boolean {
+    return sessionStorage.getItem("accessToken") ? true : false;
+  }
+
   public login(username: string, password: string): Observable<models.LoginInfo> {
     return this.api.loginUsingPOST(
       {
@@ -39,5 +43,7 @@ export class AuthenticationService {
     sessionStorage.removeItem("accessToken");
     sessionStorage.removeItem("refreshToken");
     sessionStorage.removeItem("csrfToken");
+
+    this.stompService.disconnect();
   }
 }

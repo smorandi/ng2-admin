@@ -22,6 +22,47 @@
   }
 }
 
+.login {
+  text-shadow: none;
+  font-size: 13px;
+  line-height: 25px;
+  transition: all 0.5s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 162px;
+  float: right;
+  margin: 20px 0 0 30px;
+
+  label {
+    cursor: pointer;
+  }
+  i {
+    width: 16px;
+    display: inline-block;
+    cursor: pointer;
+    padding-left: 1px;
+    font-size: 16px;
+    margin-right: 13px;
+  }
+  input {
+    color: $sidebar-text;
+    background: none;
+    border: none;
+    outline: none;
+    width: 120px;
+    padding: 0;
+    margin: 0 0 0 -3px;
+    height: 27px;
+  }
+  a {
+    color: $default-text;
+
+    &:hover {
+      color: $primary-light;
+    }
+  }
+}
+
 a.al-logo {
   color: $sidebar-text;
   display: block;
@@ -97,6 +138,8 @@ a.collapse-menu-link {
     color: $warning;
   }
 }
+
+.login {}
 
 .al-skin-dropdown {
   float: right;
