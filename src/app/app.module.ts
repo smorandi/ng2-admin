@@ -16,10 +16,10 @@ import {GlobalState} from "./global.state";
 import {NgaModule} from "./theme/nga.module";
 import {PagesModule} from "./pages/pages.module";
 import {AuthGuard} from "./_guards/auth.guard";
-import {APIS, BASE_PATH} from "./angular2";
 import {AlertService, AuthenticationService, UserService} from "./_services";
 import {ModalModule} from "ng2-bootstrap";
 import {STOMPService} from "./_services/stomp/stomp.service";
+import {APIS, BASE_PATH} from "../../lib/angular2";
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -60,19 +60,18 @@ export type StoreType = {
     APP_PROVIDERS,
 
     APIS,
-
     {
       provide: BASE_PATH, // Used in apis as base path.
-      useValue: "http://localhost:9000"//API_BASE_PATH // Declared in custom-typings.d.ts, set by webpack's DefinePlugin
+      useValue: "http://10.16.124.13:9000"//API_BASE_PATH // Declared in custom-typings.d.ts, set by webpack's DefinePlugin
     },
 
     AuthGuard,
     AlertService,
     AuthenticationService,
     UserService,
-    STOMPService
+    STOMPService,
 
-    // {provide: ErrorHandler, useValue: AlertService}
+    {provide: ErrorHandler, useValue: AlertService}
   ]
 })
 export class AppModule {

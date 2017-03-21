@@ -1,4 +1,4 @@
-import {Component, ViewContainerRef, AfterViewInit, OnInit, ViewChild} from "@angular/core";
+import {Component, ViewContainerRef, AfterViewInit, OnInit, ViewChild, OnDestroy} from "@angular/core";
 import {GlobalState} from "./global.state";
 import {BaImageLoaderService, BaThemePreloader, BaThemeSpinner} from "./theme/services";
 import {BaThemeConfig} from "./theme/theme.config";
@@ -8,6 +8,7 @@ import "style-loader!./theme/initial.scss";
 import {ModalDirective} from "ng2-bootstrap";
 import {AlertService} from "./_services/alert.service";
 import {Subscription} from "rxjs";
+import {STOMPService} from "./_services/stomp/stomp.service";
 
 /*
  * App Component
@@ -17,7 +18,7 @@ import {Subscription} from "rxjs";
   selector: 'app',
   templateUrl: "./app.html"
 })
-export class App implements OnInit, AfterViewInit {
+export class App implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('childModal') childModal: ModalDirective;
   public alertTitle: string = "der";
   public alertMessage: string = "fisch";
@@ -32,7 +33,8 @@ export class App implements OnInit, AfterViewInit {
               private _spinner: BaThemeSpinner,
               private viewContainerRef: ViewContainerRef,
               private themeConfig: BaThemeConfig,
-              private alertService: AlertService) {
+              private alertService: AlertService,
+              private stompService: STOMPService) {
 
     themeConfig.config();
 
@@ -59,6 +61,19 @@ export class App implements OnInit, AfterViewInit {
         this.hideChildModal();
       }
     });
+
+    let loggedIn: boolean = sessionStorage.getItem("accessToken") ? true : false;
+
+    if (loggedIn) {
+      this.stompService.disconnect();
+      this.stompService.init();
+    }
+
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+    this.stompService.disconnect();
   }
 
   showChildModal(): void {
@@ -68,7 +83,6 @@ export class App implements OnInit, AfterViewInit {
   hideChildModal(): void {
     this.childModal.hide();
   }
-
 
   public ngAfterViewInit(): void {
     // hide spinner once all loaders are completed

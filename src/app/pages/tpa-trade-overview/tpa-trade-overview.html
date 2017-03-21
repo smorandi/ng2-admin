@@ -1,9 +1,17 @@
 <ul class="btn-list clearfix">
   <li>
-    <button type="button" class="btn btn-default" (click)="loadTrades()">Load Trades</button>
+    <button type="button" class="btn btn-primary" (click)="loadTrades()">Load Trades</button>
+  </li>
+
+  <li>
+    <button type="button" class="btn btn-warning" (click)="clearTrades()">Clear</button>
   </li>
 
   <li>
     <button type="button" class="btn btn-default" (click)="getLegalEntity()">Get Legal Entity</button>
   </li>
 </ul>
+
+<div class="row">
+  <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)"></ng2-smart-table>
+</div>

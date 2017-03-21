@@ -1,14 +1,15 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
 import {Subject, Observable} from 'rxjs/Rx';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
-import { StompConfig } from './';
+import {StompConfig} from './';
 
 import * as Stomp from "stompjs";
 
 import * as SockJS from 'sockjs-client';
 import {Todo} from "../../pages/dashboard/todo/todo.component";
+import {AuthenticationService} from "../authentication.service";
 
 /** possible states for the STOMP service */
 export enum STOMPState {
@@ -17,7 +18,8 @@ export enum STOMPState {
   CONNECTED,
   SUBSCRIBED,
   DISCONNECTING
-};
+}
+;
 
 /**
  * Angular2 STOMP Service using stomp.js
@@ -37,7 +39,7 @@ export class STOMPService {
   public state: BehaviorSubject<STOMPState>;
 
   // Publishes new messages to Observers
-  private messages:  BehaviorSubject<Array<Stomp.Message>>;
+  private messages: BehaviorSubject<Array<Stomp.Message>>;
 
   // Configuration structure with MQ creds
   private config: StompConfig;
@@ -61,13 +63,13 @@ export class STOMPService {
     this.state = new BehaviorSubject<STOMPState>(STOMPState.CLOSED);
   }
 
-  public getMessages():Observable<Array<Stomp.Message>> {
+  public getMessages(): Observable<Stomp.Message[]> {
     return this.messages.asObservable();
   }
 
   public init(): Promise<{}> {
     this.stompConfig = {
-      "host": "localhost",
+      "host": "10.16.124.13",
       "port": 9000,
       "ssl": false,
 
@@ -109,7 +111,7 @@ export class STOMPService {
       scheme = 'wss';
     }
 
-    this.sockJS = new SockJS("http://"+this.config.host+":"+this.config.port+"/ws");
+    this.sockJS = new SockJS("http://" + this.config.host + ":" + this.config.port + "/ws");
     this.client = Stomp.over(this.sockJS);
 
     // // Attempt connection, passing in a callback
@@ -135,7 +137,7 @@ export class STOMPService {
     }
 
     // Attempt connection, passing in a callback
-    this.client.connect(<any>{token: sessionStorage.getItem("accessToken") },
+    this.client.connect(<any>{token: sessionStorage.getItem("accessToken")},
       this.on_connect,
       this.on_error
     );
@@ -167,6 +169,9 @@ export class STOMPService {
         () => this.state.next(STOMPState.CLOSED)
       );
     }
+    else {
+      this.state.next(STOMPState.CLOSED);
+    }
   }
 
 
@@ -174,7 +179,7 @@ export class STOMPService {
   private subscribe(): void {
     // Subscribe to our configured queues
     for (const t of this.config.subscribe) {
-      this.client.subscribe(t, this.on_message, { ack: 'auto' });
+      this.client.subscribe(t, this.on_message, {ack: 'auto'});
     }
 
     // Update the state

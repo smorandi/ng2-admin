@@ -1,10 +1,8 @@
 ﻿import {Injectable} from "@angular/core";
-import {Headers, RequestOptions} from "@angular/http";
-import {AuthenticationControllerApi} from "../angular2/api/AuthenticationControllerApi";
-import {AlertService} from "./alert.service";
+import {AuthenticationControllerApi} from "../../../lib/angular2/api/AuthenticationControllerApi";
 import "rxjs/add/operator/map";
 import {Observable} from "rxjs";
-import * as models from "../angular2/model/models";
+import * as models from "../../../lib/angular2/model/models";
 import {STOMPService} from "./stomp/stomp.service";
 
 @Injectable()
@@ -29,9 +27,7 @@ export class AuthenticationService {
           sessionStorage.setItem("refreshToken", response.refreshToken);
           sessionStorage.setItem("csrfToken", response.csrfToken);
 
-          this.stompService.init().then(r => {
-            console.log("connected: " + r);
-          });
+          this.stompService.init();
 
           return response;
         }
