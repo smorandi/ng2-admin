@@ -23,7 +23,19 @@ export class TpaTradeOverviewComponent implements OnInit {
       },
       book: {
         title: 'Book',
-        type: 'string',
+        editable: false,
+      },
+      quantity: {
+        title: 'Quantity',
+        type: 'number',
+        editable: false,
+      },
+      status: {
+        title: 'Status',
+        editable: false,
+      },
+      tradeDate: {
+        title: 'Trade Date',
         editable: false,
       },
       enteredDate: {
@@ -51,12 +63,8 @@ export class TpaTradeOverviewComponent implements OnInit {
   public loadTrades(): void {
     this.api.getTradesUsingGET(this.jwt()).subscribe(
       data => {
-        let d = [
-          {id: 22, book: "der fisch 22", enteredDate: new Date()},
-          {id: 23, book: "der fisch 23", enteredDate: new Date()}
-        ];
         // this.alertService.success(JSON.stringify(data, null, 4));
-        this.source.load(d).then(res => {
+        this.source.load(data).then(res => {
           console.log("loaded");
         });
       },
