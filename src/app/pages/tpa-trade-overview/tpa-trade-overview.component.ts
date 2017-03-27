@@ -14,7 +14,7 @@ import {LocalDataSource} from "ng2-smart-table";
 })
 export class TpaTradeOverviewComponent implements OnInit {
 
-  private settings = {
+  settings = {
     columns: {
       id: {
         title: 'ID',
@@ -50,7 +50,7 @@ export class TpaTradeOverviewComponent implements OnInit {
     edit: null
   };
 
-  private source: LocalDataSource = new LocalDataSource();
+  source: LocalDataSource = new LocalDataSource();
 
 
   constructor(private api: CalypsoControllerApi,
